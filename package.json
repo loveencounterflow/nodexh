@@ -1,0 +1,32 @@
+{
+  "name": "nodexh",
+  "version": "0.0.1",
+  "description": "a wrapper around the `node` executable for better stacktraces with sourcemaps, sourcecode excerpts",
+  "main": "lib/main.js",
+  "bin": {
+    "nodexh": "bin/nodexh"
+  },
+  "scripts": {
+    "build": "coffee --map -o lib -c src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loveencounterflow/nodexh.git"
+  },
+  "keywords": [
+    "node",
+    "stacktrace",
+    "terminal",
+    "error handling"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/nodexh/issues"
+  },
+  "homepage": "https://github.com/loveencounterflow/nodexh",
+  "dependencies": {
+    "cnd": "^9.0.0",
+    "stackman": "^4.0.1"
+  }
+}
