@@ -1,24 +1,31 @@
 
-# NodeXH: NodeJS Exception Handler
+
+# NodeXH: NodeJS With a Better Exception Handler
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [cnd](#cnd)
-  - [CND Interval Tree](#cnd-interval-tree)
-  - [CND Shim](#cnd-shim)
-  - [CND TSort](#cnd-tsort)
-    - [TSort API](#tsort-api)
-    - [Some TDOP Links](#some-tdop-links)
-  - [XJSON](#xjson)
-  - [CND.TEXT.to_width](#cndtextto_width)
-  - [ToDo](#todo)
+- [What It Is](#what-it-is)
+- [How to Install](#how-to-install)
+- [How to Use](#how-to-use)
+- [What to Expect](#what-to-expect)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-NodeXH is a drop-in wrapper for the NodeJS executable hat provides better stacktraces. Just `npm install -g
-nodexh`, then use `nodexh path/to/file.js` instead of `node path/to/file.js`, and you're good to go.
+## What It Is
+
+NodeXH is a drop-in wrapper for the NodeJS executable hat provides better stacktraces.
+
+## How to Install
+
+`npm install -g nodexh`
+
+## How to Use
+
+Use `nodexh path/to/file.js` instead of `node path/to/file.js`, and you're good to go.
+
+## What to Expect
 
 * Stack trace items will be reversed, so most recent calls will be shown *last*, i.e. also closest to where
   the cursor of your terminal is.
