@@ -39,37 +39,75 @@ PATH                      = require 'path'
   white
   yellow
   reverse
+  underline
   bold }                  = CND
-# { isa }                   = ( new ( require 'intertype' ).Intertype() ).export()
+# types                     = new ( require '../../intertype' ).Intertype()
+# { isa }                   = types.export()
 
 #-----------------------------------------------------------------------------------------------------------
 alertxxx = ( P... ) -> process.stdout.write ' ' + CND.pen P...
 
 #-----------------------------------------------------------------------------------------------------------
-get_context = ( path, linenr ) ->
+get_context = ( path, linenr, colnr ) ->
   ### TAINT use stackman.sourceContexts() instead ###
   try
     lines     = ( FS.readFileSync path, { encoding: 'utf-8' } ).split '\n'
     delta     = 1
+    coldelta  = 5
+    effect    = underline
+    effect    = bold
+    effect    = reverse
     first_idx = Math.max 0, linenr - 1 - delta
     last_idx  = Math.min lines.length - 1, linenr - 1 + delta
     R         = []
     for line, idx in lines[ first_idx .. last_idx ]
       this_linenr = first_idx + idx + 1
       lnr = ( this_linenr.toString().padStart 4 ) + '│ '
-      if this_linenr is linenr  then  R.push  "#{grey lnr}#{cyan line}"
-      else                            R.push  "#{grey lnr}#{grey line}"
+      if this_linenr is linenr
+        c0  = colnr - 1
+        c1  = colnr + coldelta
+        line = line[ ... c0 ] + ( effect line[ c0 ... c1 ] ) + line[ c1 .. ]
+        R.push  "#{grey lnr}#{cyan line}"
+      else
+        R.push  "#{grey lnr}#{grey line}"
     # R = R.join '\n'
   catch error
     throw error unless error.code is 'ENOENT'
-    return [ ( red "!!! #{rpr error.message} !!!" ), ]
+    # return [ ( red "!!! #{rpr error.message} !!!" ), ]
+    return []
   return R
+
+#-----------------------------------------------------------------------------------------------------------
+resolve_locations = ( frames, handler ) ->
+  load_source_map = require 'load-source-map'
+  debug '^3334^', ( k for k of load_source_map )
+  for frame in frames
+    path  = frame.file
+    path  = null if path in [ '', undefined, ]
+    continue unless path?
+    do ( path ) ->
+      load_source_map path, ( lsm_error, sourcemap ) ->
+        return if lsm_error?
+        return unless sourcemap?
+        # return handler error if error?
+        # return handler() unless sourcemap?
+        position  = sourcemap.originalPositionFor { line: linenr, column: colnr, }
+        linenr    = position.line
+        colnr     = position.column
+        # debug '^3387^', ( k for k of sourcemap )
+        whisper 'load-source-map', position
+        whisper 'load-source-map', { path, linenr, colnr, }
+  handler()
+  return null
 
 #-----------------------------------------------------------------------------------------------------------
 show_error_with_source_context = ( error, headline ) ->
   arrowhead   = white '▲'
   arrowshaft  = white '│'
   width       = process.stdout.columns
+  # demo_error_stack_parser error
+  # debug CND.cyan error.stack
+  ##########################################################################################################
   stackman.callsites error, ( stackman_error, callsites ) ->
     throw stackman_error if stackman_error?
     callsites.reverse()
@@ -77,8 +115,9 @@ show_error_with_source_context = ( error, headline ) ->
       unless ( path = callsite.getFileName() )?
         alertxxx grey '—'.repeat 108
         return null
-      relpath   = PATH.relative process.cwd(), path
       linenr    = callsite.getLineNumber()
+      colnr     = callsite.getColumnNumber()
+      relpath     = PATH.relative process.cwd(), path
       # debug "^8887^ #{rpr {path, linenr, callsite:callsite.getFileName(),sourceContexts:null}}"
       if path.startsWith 'internal/'
         alertxxx arrowhead, grey "#{relpath} ##{linenr}"
@@ -86,11 +125,11 @@ show_error_with_source_context = ( error, headline ) ->
       # alertxxx()
       # alertxxx steel bold reverse ( "#{relpath} ##{linenr}:" ).padEnd 108
       alertxxx arrowhead, gold ( "#{relpath} ##{linenr}: \x1b[38;05;234m".padEnd width, '—' )
-      source = get_context path, linenr
+      source      = get_context path, linenr, colnr
       alertxxx arrowshaft, line for line in source
       return null
+      alert reverse bold headline
     # if error?.message?
-    alert reverse bold headline
     return null
   return null
 
