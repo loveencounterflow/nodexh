@@ -107,7 +107,8 @@ show_error_with_source_context = ( error, headline ) ->
     show_error_with_source_context exception, ' ' + head + ' '
   else
     whisper exception?.stack ? "(exception undefined, no stack)"
-  process.exitCode = 1
+  # process.exitCode = 1
+  process.exit 111
 @exit_handler = @exit_handler.bind @
 
 
