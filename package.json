@@ -26,7 +26,9 @@
   },
   "homepage": "https://github.com/loveencounterflow/nodexh",
   "dependencies": {
-    "cnd": "^9.0.0",
-    "stackman": "^4.0.1"
+    "cnd": "^9.1.0",
+    "load-source-map": "^1.0.0",
+    "stackman": "^4.0.1",
+    "stacktracey": "^2.0.11"
   }
 }
