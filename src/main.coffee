@@ -54,6 +54,8 @@ get_context = ( path, linenr, colnr ) ->
     lines     = ( FS.readFileSync path, { encoding: 'utf-8' } ).split '\n'
     delta     = 1
     coldelta  = 5
+    ### TAINT use more meaningful limit like n times the terminal width, assuming default of 100 ###
+    colnr_max = 100
     effect    = underline
     effect    = bold
     effect    = reverse
@@ -64,9 +66,15 @@ get_context = ( path, linenr, colnr ) ->
       this_linenr = first_idx + idx + 1
       lnr = ( this_linenr.toString().padStart 4 ) + '│ '
       if this_linenr is linenr
-        c0  = colnr - 1
-        c1  = colnr + coldelta
-        line = line[ ... c0 ] + ( effect line[ c0 ... c1 ] ) + line[ c1 .. ]
+        c0      = colnr - 1
+        c1      = colnr + coldelta
+        hilite  = effect line[ c0 ... c1 ]
+        line    = line[ ... c0 ] + hilite + line[ c1 .. ]
+        if c1 > colnr_max
+          colnr_max2  = Math.floor colnr_max / 2
+          line        = '... ' + line[ c1 - colnr_max2 .. c1 + hilite.length - ( c1 - c0 ) + colnr_max2 ] + ' ...'
+        else
+          line  = line[ .. colnr_max ]
         R.push  "#{grey lnr}#{cyan line}"
       else
         R.push  "#{grey lnr}#{grey line}"
@@ -125,7 +133,7 @@ show_error_with_source_context = ( error, headline ) ->
         return null
       # alertxxx()
       # alertxxx steel bold reverse ( "#{relpath} ##{linenr}:" ).padEnd 108
-      alertxxx arrowhead, gold ( "#{relpath} ##{linenr}: \x1b[38;05;234m".padEnd width, '—' )
+      alertxxx arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
       source      = get_context path, linenr, colnr
       alertxxx arrowshaft, line for line in source
       return null
