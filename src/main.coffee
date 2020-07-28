@@ -140,11 +140,9 @@ show_error_with_source_context = ( error, headline ) ->
 
 #-----------------------------------------------------------------------------------------------------------
 exit_handler = ( error ) ->
-  message             = ' EXCEPTION: ' + ( error?.message ? "an unrecoverable condition occurred" )
-  # if stack = error?.where ? error?.stack ? null
-  #.........................................................................................................
+  message = ' EXCEPTION: ' + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
-  # setImmediate ( -> process.exit 111 )
+  setImmediate ( -> process.exit 111 )
   # process.exit 111
   return null
 
