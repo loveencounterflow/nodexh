@@ -144,14 +144,13 @@ show_error_with_source_context = ( error, headline ) ->
 
 #-----------------------------------------------------------------------------------------------------------
 @exit_handler = ( exception ) ->
-  print               = alert
   message             = ' EXCEPTION: ' + ( exception?.message ? "an unrecoverable condition occurred" )
   if stack = exception?.where ? exception?.stack ? null
     message += '\n--------------------\n' + stack + '\n--------------------'
   [ head, tail..., ]  = message.split '\n'
   # debug '^222766^', { stack, }
   # debug '^222766^', { message, tail, }
-  print reverse ' ' + head + ' '
+  alert reverse ' ' + head + ' '
   warn line for line in tail
   if exception?.stack?
     debug '^4445^', "show_error_with_source_context"
