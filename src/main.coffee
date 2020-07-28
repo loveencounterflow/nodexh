@@ -168,23 +168,6 @@ show_error_with_source_context = ( error, headline ) ->
 ############################################################################################################
 unless global[ Symbol.for 'cnd-exception-handler' ]?
   global[ Symbol.for 'cnd-exception-handler' ] = true
-  if process.type is 'renderer'
-    window.addEventListener 'error', ( event ) =>
-      # event.preventDefault()
-      message = ( event.error?.message ? "(error without message)" ) + '\n' + ( event.error?.stack ? '' )[ ... 500 ]
-      OPS.log message
-      # @exit_handler event.error
-      OPS.open_devtools()
-      return true
-
-    window.addEventListener 'unhandledrejection', ( event ) =>
-      # event.preventDefault()
-      message = ( event.reason?.message ? "(error without message)" ) + '\n' + ( event.reason?.stack ? '' )[ ... 500 ]
-      OPS.log message
-      # @exit_handler event.reason
-      OPS.open_devtools()
-      return true
-  else
-    process.on 'uncaughtException',  @exit_handler
-    process.on 'unhandledRejection', @exit_handler
+  process.on 'uncaughtException',  @exit_handler
+  process.on 'unhandledRejection', @exit_handler
 
