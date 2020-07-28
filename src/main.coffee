@@ -25,7 +25,8 @@ help                      = CND.get_logger 'help',      badge
 urge                      = CND.get_logger 'urge',      badge
 whisper                   = CND.get_logger 'whisper',   badge
 echo                      = CND.echo.bind CND
-stackman                  = ( require 'stackman' )()
+# stackman                  = ( require 'stackman' )()
+get_error_callsites       = require 'error-callsites'
 FS                        = require 'fs'
 PATH                      = require 'path'
 { red
