@@ -28,7 +28,6 @@
   "dependencies": {
     "cnd": "^9.1.0",
     "load-source-map": "^2.0.0",
-    "stackman": "^4.0.1",
-    "stacktracey": "^2.0.12"
+    "stackman": "^4.0.1"
   }
 }
