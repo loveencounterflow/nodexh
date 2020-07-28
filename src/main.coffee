@@ -159,6 +159,8 @@ show_error_with_source_context = ( error, headline ) ->
   else
     whisper exception?.stack ? "(exception undefined, no stack)"
   process.exitCode = 1
+  debug '^33333442-1^'
+  setImmediate ( -> process.exit 111 )
   # process.exit 111
 @exit_handler = @exit_handler.bind @
 
