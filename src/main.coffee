@@ -4,15 +4,6 @@
 
 
 ############################################################################################################
-############################################################################################################
-############################################################################################################
-### see https://medium.com/@nodejs/source-maps-in-node-js-482872b56116
-############################################################################################################
-############################################################################################################
-############################################################################################################
-
-
-############################################################################################################
 CND                       = require 'cnd'
 rpr                       = CND.rpr
 badge                     = 'nodexh'
@@ -106,11 +97,20 @@ show_error_with_source_context = ( error, headline ) ->
       behind Node.js) allows us to hook into the stack trace generator function before that stack trace is
       generated. It's triggered by accessing the .stack property on the Error object, so please don't do
       that before parsing the error to stackman, else this will not work!" ###
+  alert '^77765-1^', reverse bold headline
   arrowhead   = white '▲'
   arrowshaft  = white '│'
   width       = process.stdout.columns
+  callsites   = get_error_callsites error
   #.........................................................................................................
-  for callsite in ( get_error_callsites error ).reverse()
+  if ( not callsites? ) or ( callsites.length is 0 )
+    write_to_stderr CND.red CND.reverse "error has no associated callsites:"
+    write_to_stderr CND.red CND.reverse rpr error
+    return null
+  #.........................................................................................................
+  callsites.reverse()
+  #.........................................................................................................
+  for callsite in callsites
     path = callsite.getFileName()
     #.......................................................................................................
     unless path?
@@ -134,7 +134,7 @@ show_error_with_source_context = ( error, headline ) ->
     write_to_stderr arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
     for context_line in await get_context path, linenr, colnr, width
       write_to_stderr arrowshaft, context_line
-  alert '^77765^', reverse bold headline
+  alert '^77765-2^', reverse bold headline
   # if error?.message?
   return null
 
