@@ -56,39 +56,39 @@ fetch_mapped_location = ( path, linenr, colnr ) ->
 
 #-----------------------------------------------------------------------------------------------------------
 get_context = ( path, linenr, colnr, width ) ->
-  #.........................................................................................................
-  try
-    lines     = ( FS.readFileSync path, { encoding: 'utf-8' } ).split '\n'
-    delta     = 1
-    coldelta  = 5
-    ### TAINT use more meaningful limit like n times the terminal width, assuming default of 100 ###
-    # effect    = underline
-    # effect    = bold
-    effect    = reverse
-    first_idx = Math.max 0, linenr - 1 - delta
-    last_idx  = Math.min lines.length - 1, linenr - 1 + delta
-    R         = []
-    for line, idx in lines[ first_idx .. last_idx ]
-      this_linenr     = first_idx + idx + 1
-      this_linenr_txt = ( this_linenr.toString().padStart 4 ) + '│ '
-      if this_linenr is linenr
-        c0      = colnr - 1
-        c1      = colnr + coldelta
-        hilite  = effect line[ c0 ... c1 ]
-        line    = line[ ... c0 ] + hilite + line[ c1 .. ]
-        if c1 > width
-          width2  = Math.floor width / 2
-          line    = '... ' + line[ c1 - width2 .. c1 + hilite.length - ( c1 - c0 ) + width2 ] + ' ...'
-        else
-          line  = line[ .. width ]
-        R.push  "#{grey this_linenr_txt}#{cyan line}"
-      else
-        R.push  "#{grey this_linenr_txt}#{grey line}"
-    # R = R.join '\n'
-  catch error
+  try return ( _get_context path, linenr, colnr, width ) catch error
     throw error unless error.code is 'ENOENT'
     # return [ ( red "!!! #{rpr error.message} !!!" ), ]
-    return []
+  return []
+
+#-----------------------------------------------------------------------------------------------------------
+_get_context = ( path, linenr, colnr, width ) ->
+  lines     = ( FS.readFileSync path, { encoding: 'utf-8' } ).split '\n'
+  delta     = 1
+  coldelta  = 5
+  effect    = reverse
+  first_idx = Math.max 0, linenr - 1 - delta
+  last_idx  = Math.min lines.length - 1, linenr - 1 + delta
+  R         = []
+  for line, idx in lines[ first_idx .. last_idx ]
+    this_linenr     = first_idx + idx + 1
+    this_linenr_txt = ( this_linenr.toString().padStart 4 ) + '│ '
+    if this_linenr isnt linenr
+      ### TAINT should adjust overlong context lines as well ###
+      R.push  "#{grey this_linenr_txt}#{grey line}"
+      continue
+    ### TAINT perform line length adjustment, hiliting in dedicated method ###
+    c0      = colnr - 1
+    c1      = colnr + coldelta
+    hilite  = effect line[ c0 ... c1 ]
+    line    = line[ ... c0 ] + hilite + line[ c1 .. ]
+    if c1 > width
+      width2  = Math.floor width / 2
+      line    = '... ' + line[ c1 - width2 .. c1 + hilite.length - ( c1 - c0 ) + width2 ] + ' ...'
+    else
+      line  = line[ .. width ]
+    R.push  "#{grey this_linenr_txt}#{cyan line}"
+  # R = R.join '\n'
   return R
 
 #-----------------------------------------------------------------------------------------------------------
