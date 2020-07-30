@@ -121,7 +121,7 @@ show_error_with_source_context = ( error, headline ) ->
     colnr       = callsite.getColumnNumber()
     #.......................................................................................................
     if path.startsWith 'internal/'
-      write_to_stderr arrowhead, grey "#{path} ##{linenr}"
+      write_to_stderr arrowhead, grey "#{path} @ #{linenr},#{colnr}"
       continue
     #.......................................................................................................
     # debug '^344463^', { relpath, linenr, colnr, }
@@ -139,11 +139,10 @@ show_error_with_source_context = ( error, headline ) ->
   return null
 
 #-----------------------------------------------------------------------------------------------------------
-exit_handler = ( error ) ->
+exit_handler = ( error, origin ) ->
   message = ' EXCEPTION: ' + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
   setImmediate ( -> process.exit 111 )
-  # process.exit 111
   return null
 
 
