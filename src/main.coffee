@@ -167,6 +167,7 @@ get_stacktracey = ( error ) ->
       line:           d.line
       column:         d.column
       source:         d.sourceLine
+      error:          d.error
     # for k in [ 'sourceLine', 'native', 'file', 'line', 'column', 'calleeShort', 'fileRelative', 'fileShort', 'fileName', 'thirdParty', 'name',]
     #   debug k, rpr d[ k ]
     R.push s
@@ -176,7 +177,8 @@ get_stacktracey = ( error ) ->
 show_stacktracey = ( error ) ->
   for d in get_stacktracey error
     echo CND.steel  "#{d.relpath} @ #{d.line}:#{d.column}"
-    echo CND.yellow "#{rpr d.source[ .. 100 ]}"
+    if d.error? then  echo CND.red d.error.message ? "an error occurred"
+    else              echo CND.yellow "#{rpr d.source[ .. 100 ]}"
   return null
 
 ############################################################################################################
