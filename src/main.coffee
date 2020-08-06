@@ -124,7 +124,6 @@ show_error_with_source_context = ( error, headline ) ->
       write_to_stderr arrowhead, grey "#{path} @ #{linenr},#{colnr}"
       continue
     #.......................................................................................................
-    # debug '^344463^', { relpath, linenr, colnr, }
     # write_to_stderr()
     # write_to_stderr steel bold reverse ( "#{relpath} ##{linenr}:" ).padEnd 108
     { path
@@ -146,12 +145,11 @@ exit_handler = ( error, origin ) ->
   return null
 
 
-
 ############################################################################################################
 unless global[ Symbol.for 'cnd-exception-handler' ]?
   global[ Symbol.for 'cnd-exception-handler' ] = true
-  process.on 'uncaughtException',  exit_handler
-  process.on 'unhandledRejection', exit_handler
+  process.once 'uncaughtException',  exit_handler
+  process.once 'unhandledRejection', exit_handler
 
 ###
 callsite.getThis() - returns the value of this
