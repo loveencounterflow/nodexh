@@ -139,10 +139,49 @@ show_error_with_source_context = ( error, headline ) ->
 
 #-----------------------------------------------------------------------------------------------------------
 exit_handler = ( error, origin ) ->
+  ### TAINT origin never used ###
+  show_stacktracey error
   message = ' EXCEPTION: ' + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
   setImmediate ( -> process.exit 111 )
   return null
+
+############################################################################################################
+############################################################################################################
+############################################################################################################
+StackTracey               = require 'stacktracey'
+
+get_stacktracey = ( error ) ->
+  stack = ( new StackTracey error ).withSources()
+  stack = stack.clean()
+  R     = []
+  for idx in [ stack.items.length - 1 .. 0 ] by -1
+    d = stack.items[ idx ]
+    # debug '^2798^', ( k for k of d )
+    s =
+      # target_path:    d.file
+      relpath:        d.fileRelative # fileShort
+      native:         d.native
+      # is_nodejs:      d.native
+      is_other:       d.thirdParty
+      line:           d.line
+      column:         d.column
+      source:         d.sourceLine
+    # for k in [ 'sourceLine', 'native', 'file', 'line', 'column', 'calleeShort', 'fileRelative', 'fileShort', 'fileName', 'thirdParty', 'name',]
+    #   debug k, rpr d[ k ]
+    R.push s
+  # info '\n' + stack.asTable()
+  return R
+
+show_stacktracey = ( error ) ->
+  for d in get_stacktracey error
+    echo CND.steel  "#{d.relpath} @ #{d.line}:#{d.column}"
+    echo CND.yellow "#{rpr d.source[ .. 100 ]}"
+  return null
+
+############################################################################################################
+############################################################################################################
+############################################################################################################
 
 
 ############################################################################################################
