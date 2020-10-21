@@ -141,7 +141,8 @@ show_error_with_source_context = ( error, headline ) ->
 exit_handler = ( error, origin ) ->
   ### TAINT origin never used ###
   show_stacktracey error
-  message = ' EXCEPTION: ' + ( error?.message ? "an unrecoverable condition occurred" )
+  type    = error.code ? error.name ? 'EXCEPTION'
+  message = " #{type}: " + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
   setImmediate ( -> process.exit 111 )
   return null
