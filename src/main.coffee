@@ -154,7 +154,7 @@ StackTracey               = require 'stacktracey'
 
 get_stacktracey = ( error ) ->
   stack = ( new StackTracey error ).withSources()
-  stack = stack.clean()
+  # stack = stack.clean()
   R     = []
   for idx in [ stack.items.length - 1 .. 0 ] by -1
     d = stack.items[ idx ]
