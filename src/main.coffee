@@ -178,6 +178,11 @@ get_stacktracey = ( error ) ->
 show_stacktracey = ( error ) ->
   for d in get_stacktracey error
     echo CND.steel  "#{d.relpath} @ #{d.line}:#{d.column}"
+    ### NOTE errors:
+      ENOENT: no such file or directory
+      EISDIR: illegal operation on a directory, read
+      'Cannot read property 'originalPositionFor' of undefined'
+    ###
     if d.error? then  echo CND.red d.error.message ? "an error occurred"
     else              echo CND.yellow "#{rpr d.source[ .. 100 ]}"
   return null
