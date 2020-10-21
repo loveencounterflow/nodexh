@@ -1,6 +1,6 @@
 {
   "name": "nodexh",
-  "version": "1.1.1",
+  "version": "2.0.0-pre",
   "description": "a wrapper around the `node` executable for better stacktraces with sourcemaps, sourcecode excerpts",
   "main": "lib/main.js",
   "bin": {
