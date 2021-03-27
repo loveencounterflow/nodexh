@@ -142,13 +142,24 @@ show_error_with_source_context = ( error, headline ) ->
     for context_line in await get_context path, linenr, colnr, width
       write_to_stderr arrowshaft, context_line
   alert '^77765-2^', reverse bold headline
-  # if error?.message?
+  # urge "^94843^ error.stack:", rpr error.stack
+  # urge "^94843^ error.message:", rpr error.message
+  # urge "^94843^ error.code:", rpr error.code
+  # urge "^94843^ error.name:", rpr error.name
+  # urge "^94843^ error.type:", rpr error.type
+  # urge "^94843^ error.toString():", rpr error.toString()
+  # urge "^94843^ error:", rpr error
+  # CATALOGUING = require '../../multimix/lib/cataloguing'
+  # urge "^94843^", ( CATALOGUING.all_keys_of error )
   return null
 
 #-----------------------------------------------------------------------------------------------------------
 exit_handler = ( error, origin ) ->
   ### TAINT origin never used ###
   # show_stacktracey error
+  # debug '^4488^', error
+  # debug '^4488^', await origin
+  # return null
   type    = error.code ? error.name ? 'EXCEPTION'
   message = " #{type}: " + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
@@ -202,10 +213,23 @@ show_stacktracey = ( error ) ->
 
 ############################################################################################################
 unless global[ Symbol.for 'cnd-exception-handler' ]?
+  null
   global[ Symbol.for 'cnd-exception-handler' ] = true
   process.once 'uncaughtException',  exit_handler
   process.once 'unhandledRejection', exit_handler
 
+  # do =>
+  # process.stderr.on 'data', ( data ) => debug "^6863-1^ (stderr.on 'data'):", rpr data
+  # process.stdout.on 'data', ( data ) => debug "^6863-2^ (stdout.on 'data'):", rpr data
+  # process.stderr.on 'end', => debug "^6863-1^ (stderr.on 'end')"
+  # process.stdout.on 'end', => debug "^6863-2^ (stdout.on 'end')"
+  # debug '^6456^'
+  # echo "^4564^ echo to stdout"
+  # warn "^4564^ warn to stderr"
+  # process.stderr.write "this goes to stderr\n"
+  # process.stdout.write "this goes to stdout\n"
+  # process.on 'message', ( message ) -> debug "^6863-3^' (process.on 'message'):", rpr message
+  # process.on 'warning', ( warning ) -> debug "^6863-3^' (process.on 'warning'):", rpr warning
 ###
 callsite.getThis() - returns the value of this
 callsite.getTypeName() - returns the type of this as a string. This is the name of the function stored in the constructor field of this, if available, otherwise the object's [[Class]] internal property.
