@@ -127,11 +127,18 @@ show_error_with_source_context = ( error, headline ) ->
     #.......................................................................................................
     # write_to_stderr()
     # write_to_stderr steel bold reverse ( "#{relpath} ##{linenr}:" ).padEnd 108
+    fname = callsite.getFunctionName() ? callsite.getMethodName() ? null
     { path
       linenr
       colnr   } = await fetch_mapped_location path, linenr, colnr
     relpath     = PATH.relative process.cwd(), path
-    write_to_stderr arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
+    if fname?
+      ### TAINT use proper methods to format with multiple colors ###
+      fname_txt = steel fname
+      width1    = width + ( fname_txt.length - fname.length )
+      write_to_stderr arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: #{fname_txt}() \x1b[38;05;234m".padEnd width1, '—' )
+    else
+      write_to_stderr arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
     for context_line in await get_context path, linenr, colnr, width
       write_to_stderr arrowshaft, context_line
   alert '^77765-2^', reverse bold headline
