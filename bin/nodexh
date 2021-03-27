@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
-node --require "$(realpath "$0")"/../../lib/main.js --trace-warnings --enable-source-maps --stack-trace-limit=100 "$@"
+node                                              \
+  --require "$(realpath "$0")"/../../lib/main.js  \
+  --trace-warnings                                \
+  --enable-source-maps                            \
+  --stack-trace-limit=100                         \
+  --expose-gc                                     \
+  "$@"
+  # --nouse_idle_notification                       \
+  # --trace_gc                                      \
+
+
+
 
