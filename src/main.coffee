@@ -45,7 +45,8 @@ fetch_mapped_location = ( path, linenr, colnr ) ->
     sourcemap = await load_source_map path
     smp       = sourcemap.originalPositionFor { line: linenr, column: colnr, }
   catch error
-    warn '^7763-3^', "!!!!!!!!!!!!!!!!!", error.message
+    # warn '^7763-3^', "!!!!!!!!!!!!!!!!!", { path, }
+    # warn '^7763-3^', "!!!!!!!!!!!!!!!!!", error.message
     return { path, linenr, colnr, }
   #.........................................................................................................
   if ( smp? ) and ( smp.source? ) and ( smp.source isnt '' ) and ( smp.line? ) and ( smp.column? )
