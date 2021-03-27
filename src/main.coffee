@@ -148,7 +148,7 @@ show_error_with_source_context = ( error, headline ) ->
 #-----------------------------------------------------------------------------------------------------------
 exit_handler = ( error, origin ) ->
   ### TAINT origin never used ###
-  show_stacktracey error
+  # show_stacktracey error
   type    = error.code ? error.name ? 'EXCEPTION'
   message = " #{type}: " + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
@@ -158,9 +158,9 @@ exit_handler = ( error, origin ) ->
 ############################################################################################################
 ############################################################################################################
 ############################################################################################################
-StackTracey               = require 'stacktracey'
 
 get_stacktracey = ( error ) ->
+  StackTracey               = require 'stacktracey'
   stack = ( new StackTracey error ).withSources()
   # stack = stack.clean()
   R     = []
