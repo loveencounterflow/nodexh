@@ -56,4 +56,9 @@ Use `nodexh path/to/file.js` instead of `node path/to/file.js`, and you're good 
 * [ ] fix async stacktraces (probably not yet handled correctly; might be issue with `stackman`?)
 * [ ] consider [utf8ize-sourcemaps](https://github.com/twada/utf8ize-sourcemaps) in case there should be
   problems w/ 32bit characters
+* [ ] truncate long lines in context
+* [ ] offer capabilities of NodeXH as API so applications (such as test libraries) can easily retrieve
+  source code, display source lines with contexts
+
+
 
