@@ -104,7 +104,7 @@ show_error_with_source_context = ( error, headline ) ->
   callsites   = get_error_callsites error
   #.........................................................................................................
   if ( not callsites? ) or ( callsites.length is 0 )
-    write_to_stderr CND.red CND.reverse "error has no associated callsites:"
+    write_to_stderr CND.red CND.reverse "^455756^ error has no associated callsites:"
     write_to_stderr CND.red CND.reverse rpr error
     return null
   #.........................................................................................................
