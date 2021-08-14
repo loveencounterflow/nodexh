@@ -121,7 +121,7 @@ show_error_with_source_context = ( error, headline ) ->
     linenr      = callsite.getLineNumber()
     colnr       = callsite.getColumnNumber()
     #.......................................................................................................
-    if path.startsWith 'internal/'
+    if ( path.startsWith 'node:internal/' ) or ( path.startsWith 'internal/' )
       write_to_stderr arrowhead, grey "#{path} @ #{linenr},#{colnr}"
       continue
     #.......................................................................................................
