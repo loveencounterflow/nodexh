@@ -157,7 +157,7 @@ show_error_with_source_context = ( error, headline ) ->
   return null
 
 #-----------------------------------------------------------------------------------------------------------
-exit_handler = ( error, origin ) ->
+_exit_handler = ( error, origin ) ->
   ### TAINT origin never used ###
   # show_stacktracey error
   # debug '^4488^', error
@@ -166,6 +166,11 @@ exit_handler = ( error, origin ) ->
   type    = error.code ? error.name ? 'EXCEPTION'
   message = " #{type}: " + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
+  return null
+
+#-----------------------------------------------------------------------------------------------------------
+exit_handler = ( error, origin ) ->
+  await _exit_handler error, origin
   setImmediate ( -> process.exit 111 )
   return null
 
@@ -249,3 +254,4 @@ callsite.isNative() - is this call in native V8 code?
 callsite.isConstructor() - is this a constructor c
 ###
 
+module.exports = { exit_handler, _exit_handler, }
