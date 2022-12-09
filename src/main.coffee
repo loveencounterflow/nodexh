@@ -1,21 +1,25 @@
 
-
 'use strict'
 
 
 ############################################################################################################
-CND                       = require 'cnd'
-rpr                       = CND.rpr
-badge                     = 'nodexh'
-log                       = CND.get_logger 'plain',     badge
-debug                     = CND.get_logger 'debug',     badge
-info                      = CND.get_logger 'info',      badge
-warn                      = CND.get_logger 'warn',      badge
-alert                     = CND.get_logger 'alert',      badge
-help                      = CND.get_logger 'help',      badge
-urge                      = CND.get_logger 'urge',      badge
-whisper                   = CND.get_logger 'whisper',   badge
-echo                      = CND.echo.bind CND
+GUY                       = require 'guy'
+{ alert
+  debug
+  help
+  info
+  plain
+  praise
+  urge
+  warn
+  whisper }               = GUY.trm.get_loggers 'NODEXH'
+{ rpr
+  inspect
+  echo
+  log     }               = GUY.trm
+types                     = new ( require 'intertype' ).Intertype()
+{ isa
+  type_of }               = types
 # stackman                  = ( require 'stackman' )()
 get_error_callsites       = require 'error-callsites'
 load_source_map           = ( require 'util' ).promisify ( require 'load-source-map' )
@@ -32,8 +36,7 @@ PATH                      = require 'path'
   yellow
   reverse
   underline
-  bold }                  = CND
-# types                     = new ( require '../../intertype' ).Intertype()
+  bold }                  = GUY.trm
 # { isa }                   = types.export()
 
 #-----------------------------------------------------------------------------------------------------------
@@ -105,8 +108,8 @@ show_error_with_source_context = ( error, headline ) ->
   callsites   = get_error_callsites error
   #.........................................................................................................
   if ( not callsites? ) or ( callsites.length is 0 )
-    write_to_stderr CND.red CND.reverse "^455756^ error has no associated callsites:"
-    write_to_stderr CND.red CND.reverse rpr error
+    write_to_stderr red reverse "^455756^ error has no associated callsites:"
+    write_to_stderr red reverse rpr error
     return null
   #.........................................................................................................
   callsites.reverse()
@@ -196,14 +199,14 @@ get_stacktracey = ( error ) ->
 
 show_stacktracey = ( error ) ->
   for d in get_stacktracey error
-    echo CND.steel '^44872^ ' + "#{d.relpath} @ #{d.line}:#{d.column}"
+    echo steel '^44872^ ' + "#{d.relpath} @ #{d.line}:#{d.column}"
     ### NOTE errors:
       ENOENT: no such file or directory
       EISDIR: illegal operation on a directory, read
       'Cannot read property 'originalPositionFor' of undefined'
     ###
-    if d.error? then  echo CND.red    '^44873^ ' + ( d.error.message ? "an error occurred" )
-    else              echo CND.yellow '^44874^ ' + "#{rpr d.source[ .. 100 ]}"
+    if d.error? then  echo red    '^44873^ ' + ( d.error.message ? "an error occurred" )
+    else              echo yellow '^44874^ ' + "#{rpr d.source[ .. 100 ]}"
   return null
 
 ############################################################################################################
