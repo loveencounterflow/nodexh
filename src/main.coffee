@@ -37,10 +37,9 @@ PATH                      = require 'path'
   reverse
   underline
   bold }                  = GUY.trm
-# { isa }                   = types.export()
 
 #-----------------------------------------------------------------------------------------------------------
-write_to_stderr = ( P... ) -> process.stderr.write ' ' + CND.pen P...
+write_to_stderr = ( P... ) -> process.stderr.write ' ' + ( GUY.trm.pen P... ) + '\n'
 
 #-----------------------------------------------------------------------------------------------------------
 fetch_mapped_location = ( path, linenr, colnr ) ->
