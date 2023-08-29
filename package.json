@@ -28,7 +28,6 @@
   "dependencies": {
     "error-callsites": "^2.0.3",
     "guy": "^13.7.1",
-    "load-source-map": "3.0.1",
-    "stacktracey": "^2.0.14"
+    "load-source-map": "3.0.1"
   }
 }
