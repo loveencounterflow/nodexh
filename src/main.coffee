@@ -22,7 +22,8 @@ PATH                      = require 'path'
   bold
   gold
   white
-  yellow
+  blue    # Слава Україні
+  yellow  # Слава Україні
   reverse
   underline
   bold }                  = GUY.trm
@@ -108,6 +109,11 @@ show_error_with_source_context = ( error, headline ) ->
       write_to_stderr arrowhead, grey "#{path} @ #{linenr},#{colnr}"
       continue
     #.......................................................................................................
+    if ( /\/node_modules\//.test path )
+      path_color = yellow
+    else
+      path_color = gold
+    #.......................................................................................................
     fname = callsite.getFunctionName() ? callsite.getMethodName() ? null
     { path
       linenr
@@ -117,9 +123,9 @@ show_error_with_source_context = ( error, headline ) ->
       ### TAINT use proper methods to format with multiple colors ###
       fname_txt = steel fname
       width1    = width + ( fname_txt.length - fname.length )
-      write_to_stderr arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: #{fname_txt}() \x1b[38;05;234m".padEnd width1, '—' )
+      write_to_stderr arrowhead, path_color ( "#{relpath} @ #{linenr},#{colnr}: #{fname_txt}() \x1b[38;05;234m".padEnd width1, '—' )
     else
-      write_to_stderr arrowhead, gold ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
+      write_to_stderr arrowhead, path_color ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
     for context_line in await get_context path, linenr, colnr, width
       write_to_stderr arrowshaft, context_line
   alert '^77765-2^', reverse bold headline
