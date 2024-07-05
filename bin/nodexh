@@ -17,6 +17,8 @@ realpath() {
 node                                              \
   --require "$(realpath "$0")"/../../lib/main.js  \
   --trace-warnings                                \
+  --disable-warning='ExperimentalWarning'         \
+  --experimental-require-module                   \
   --enable-source-maps                            \
   --stack-trace-limit=100                         \
   --expose-gc                                     \
