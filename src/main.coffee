@@ -20,6 +20,7 @@ PATH                      = require 'path'
   grey
   cyan
   bold
+  lime
   gold
   white
   blue    # Слава Україні
@@ -27,6 +28,10 @@ PATH                      = require 'path'
   reverse
   underline
   bold }                  = GUY.trm
+
+#-----------------------------------------------------------------------------------------------------------
+other_path_color  = ( P... ) -> reverse bold red  '', P..., ''
+own_path_color    = ( P... ) -> reverse bold lime '', P..., ''
 
 #-----------------------------------------------------------------------------------------------------------
 write_to_stderr = ( P... ) -> process.stderr.write ' ' + ( GUY.trm.pen P... ) + '\n'
@@ -109,10 +114,8 @@ show_error_with_source_context = ( error, headline ) ->
       write_to_stderr arrowhead, grey "#{path} @ #{linenr},#{colnr}"
       continue
     #.......................................................................................................
-    if ( /\/node_modules\//.test path )
-      path_color = yellow
-    else
-      path_color = gold
+    if ( /\/node_modules\//.test path ) then  path_color = other_path_color
+    else                                      path_color = own_path_color
     #.......................................................................................................
     fname = callsite.getFunctionName() ? callsite.getMethodName() ? null
     { path
