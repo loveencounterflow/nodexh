@@ -23,6 +23,7 @@ PATH                      = require 'path'
   lime
   gold
   white
+  orange
   blue    # Слава Україні
   yellow  # Слава Україні
   reverse
@@ -30,8 +31,8 @@ PATH                      = require 'path'
   bold }                  = GUY.trm
 
 #-----------------------------------------------------------------------------------------------------------
-other_path_color  = ( P... ) -> reverse bold red  '', P..., ''
-own_path_color    = ( P... ) -> reverse bold lime '', P..., ''
+other_path_color  = ( P... ) -> reverse bold orange '', P..., ''
+own_path_color    = ( P... ) -> reverse bold lime   '', P..., ''
 
 #-----------------------------------------------------------------------------------------------------------
 write_to_stderr = ( P... ) -> process.stderr.write ' ' + ( GUY.trm.pen P... ) + '\n'
