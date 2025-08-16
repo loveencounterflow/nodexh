@@ -17,22 +17,25 @@ PATH                      = require 'path'
 { red
   green
   steel
-  grey
   cyan
   bold
   lime
   gold
   white
+  plum
   orange
   blue    # Слава Україні
   yellow  # Слава Україні
   reverse
   underline
   bold }                  = GUY.trm
+grey                      = GUY.trm.BASE1
+
 
 #-----------------------------------------------------------------------------------------------------------
-other_path_color  = ( P... ) -> reverse bold orange '', P..., ''
-own_path_color    = ( P... ) -> reverse bold lime   '', P..., ''
+modules_path_color  = ( P... ) -> reverse bold orange '', P..., ''
+outside_path_color  = ( P... ) -> reverse bold plum   '', P..., ''
+own_path_color      = ( P... ) -> reverse bold lime   '', P..., ''
 
 #-----------------------------------------------------------------------------------------------------------
 write_to_stderr = ( P... ) -> process.stderr.write ' ' + ( GUY.trm.pen P... ) + '\n'
@@ -111,18 +114,21 @@ show_error_with_source_context = ( error, headline ) ->
     linenr      = callsite.getLineNumber()
     colnr       = callsite.getColumnNumber()
     #.......................................................................................................
-    if ( path.startsWith 'node:internal/' ) or ( path.startsWith 'internal/' )
+    if ( path.startsWith 'node:' ) or ( path.startsWith 'internal/' )
       write_to_stderr arrowhead, grey "#{path} @ #{linenr},#{colnr}"
       continue
-    #.......................................................................................................
-    if ( /\/node_modules\//.test path ) then  path_color = other_path_color
-    else                                      path_color = own_path_color
     #.......................................................................................................
     fname = callsite.getFunctionName() ? callsite.getMethodName() ? null
     { path
       linenr
       colnr   } = await fetch_mapped_location path, linenr, colnr
     relpath     = PATH.relative process.cwd(), path
+    #.......................................................................................................
+    switch true
+      when ( /\/node_modules\//.test path ) then  path_color = modules_path_color
+      when ( relpath.startsWith '../'     ) then  path_color = outside_path_color
+      else                                        path_color = own_path_color
+    #.......................................................................................................
     if fname?
       ### TAINT use proper methods to format with multiple colors ###
       fname_txt = steel fname
