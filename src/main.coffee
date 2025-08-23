@@ -91,7 +91,7 @@ _get_context = ( path, linenr, colnr, width ) ->
 
 #-----------------------------------------------------------------------------------------------------------
 show_error_with_source_context = ( error, headline ) ->
-  alert '^77765-1^', reverse bold headline
+  alert 'Ωnxh___2', reverse bold headline
   arrowhead   = white '▲'
   arrowshaft  = white '│'
   width       = process.stdout.columns
@@ -100,6 +100,7 @@ show_error_with_source_context = ( error, headline ) ->
   if ( not callsites? ) or ( callsites.length is 0 )
     write_to_stderr red reverse "^455756^ error has no associated callsites:"
     write_to_stderr red reverse rpr error
+    alert 'Ωnxh___4', reverse bold headline
     return null
   #.........................................................................................................
   callsites.reverse()
@@ -138,7 +139,7 @@ show_error_with_source_context = ( error, headline ) ->
       write_to_stderr arrowhead, path_color ( "#{relpath} @ #{linenr},#{colnr}: \x1b[38;05;234m".padEnd width, '—' )
     for context_line in await get_context path, linenr, colnr, width
       write_to_stderr arrowshaft, context_line
-  alert '^77765-2^', reverse bold headline
+  alert 'Ωnxh__12', reverse bold headline
   return null
 
 #-----------------------------------------------------------------------------------------------------------
