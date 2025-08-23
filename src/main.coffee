@@ -140,6 +140,8 @@ show_error_with_source_context = ( error, headline ) ->
     for context_line in await get_context path, linenr, colnr, width
       write_to_stderr arrowshaft, context_line
   alert 'Ωnxh__12', reverse bold headline
+  if error.cause?
+    show_error_with_source_context error.cause, " Cause: #{error.cause.constructor.name}: #{error.cause.message} "
   return null
 
 #-----------------------------------------------------------------------------------------------------------
