@@ -147,9 +147,9 @@ show_error_with_source_context = ( error, headline ) ->
 #-----------------------------------------------------------------------------------------------------------
 _exit_handler = ( error, origin ) ->
   ### TAINT origin never used ###
-  type    = error.code ? error.name ? 'EXCEPTION'
-  message = " #{type}: " + ( error?.message ? "an unrecoverable condition occurred" )
   await show_error_with_source_context error, message
+  type    = error?.code ? error?.constructor?.name ? error?.name ? 'EXCEPTION'
+  message = " Error: #{type}: " + ( error?.message ? "an unrecoverable condition occurred" )
   return null
 
 #-----------------------------------------------------------------------------------------------------------
