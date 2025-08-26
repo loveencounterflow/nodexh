@@ -26,9 +26,6 @@
   },
   "homepage": "https://github.com/loveencounterflow/nodexh",
   "dependencies": {
-    "error-callsites": "^2.0.3",
-    "guy": "^13.7.1",
-    "load-source-map": "3.0.1",
-    "source-map": "^0.7.6"
+    "bricabrac-single-file-modules": "^0.5.0"
   }
 }
