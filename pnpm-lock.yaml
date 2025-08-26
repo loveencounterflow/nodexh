@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       bricabrac-single-file-modules:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
 
 packages:
 
-  bricabrac-single-file-modules@0.5.0:
-    resolution: {integrity: sha512-aBwZ7y7L6pQNLsMMxeZnmODiGyMwjS7gPRIZElr6CGm3T+uP0+0Y2V18rsMk5DpKEqbcr46FT57RJ4a7Qn4RZQ==}
+  bricabrac-single-file-modules@0.6.0:
+    resolution: {integrity: sha512-tKa3RHfhJapgG1uC7Hpuk2MHSyNUancEq054BJNszjrJ/e3YW8+3FJQJZVJTAvVTbV0cPFlD4KspXzYgPSM4hw==}
 
 snapshots:
 
-  bricabrac-single-file-modules@0.5.0: {}
+  bricabrac-single-file-modules@0.6.0: {}
