@@ -5,7 +5,7 @@
 ############################################################################################################
 # blue    # Слава Україні
 # yellow  # Слава Україні
-SFMODULES                 = require 'bricabrac-single-file-modules'
+SFMODULES                 = require 'bricabrac-sfmodules'
 { format_stack,         } = SFMODULES.unstable.require_format_stack()
 
 #-----------------------------------------------------------------------------------------------------------
