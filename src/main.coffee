@@ -7,6 +7,7 @@
 # yellow  # Слава Україні
 SFMODULES                 = require 'bricabrac-sfmodules'
 { format_stack,         } = SFMODULES.unstable.require_format_stack()
+{ inspect,              } = require 'node:util'
 
 #-----------------------------------------------------------------------------------------------------------
 write_to_stderr = ( text ) -> process.stderr.write text + '\n'
@@ -14,6 +15,8 @@ write_to_stderr = ( text ) -> process.stderr.write text + '\n'
 #-----------------------------------------------------------------------------------------------------------
 exit_handler = ( error, origin ) ->
   # _exit_handler error, origin
+  unless Error.isError error
+    error = new Error "Ωnodexh___5 (not a JS Error value) #{inspect error}"
   write_to_stderr format_stack error
   setImmediate ( -> process.exit 111 )
   return null
