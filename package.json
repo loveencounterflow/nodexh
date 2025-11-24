@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/loveencounterflow/nodexh",
   "dependencies": {
-    "bricabrac-sfmodules": "^0.14.1"
+    "bricabrac-sfmodules": "^0.21.0"
   }
 }

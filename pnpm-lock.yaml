@@ -9,14 +9,35 @@ importers:
   .:
     dependencies:
       bricabrac-sfmodules:
-        specifier: ^0.14.1
-        version: 0.14.1
+        specifier: ^0.21.0
+        version: 0.21.0
 
 packages:
 
-  bricabrac-sfmodules@0.14.1:
-    resolution: {integrity: sha512-qIEnl9MOq61r+HiiUZzGtSp4rDDkzyPHdm1rue9/7uE+1YeJiySFQnHk5Fv34e3/+Ylsj7AHHVF/yr5A0X+YzQ==}
+  bricabrac-sfmodules@0.21.0:
+    resolution: {integrity: sha512-5pj9CJESyfb81j9NAmZFBx5uejKs8qfLka59wsyfBPYMSRwxDW/tsMC7VM6O/7S0LLeM8uB2gjvVR9lMAkbxbw==}
+
+  env-paths@3.0.0:
+    resolution: {integrity: sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  loupe@3.2.1:
+    resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
+
+  normalize-function-arguments@0.2.0:
+    resolution: {integrity: sha512-iICxJ8rWBffB807XWlqvvIgjlL2vvf3M+6pPkPQ/t8++1NKH0fbKvqEZuEx1z3fV+DrwK0n/TBzvljymT7tEow==}
 
 snapshots:
 
-  bricabrac-sfmodules@0.14.1: {}
+  bricabrac-sfmodules@0.21.0:
+    dependencies:
+      env-paths: 3.0.0
+      normalize-function-arguments: 0.2.0
+
+  env-paths@3.0.0: {}
+
+  loupe@3.2.1: {}
+
+  normalize-function-arguments@0.2.0:
+    dependencies:
+      loupe: 3.2.1
