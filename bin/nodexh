@@ -16,12 +16,12 @@ realpath() {
 
 node                                              \
   --require "$(realpath "$0")"/../../lib/main.js  \
-  --no-warnings=ExperimentalWarning               \
   --trace-warnings                                \
   --enable-source-maps                            \
   --stack-trace-limit=100                         \
   --expose-gc                                     \
   "$@"
+  # --no-warnings=ExperimentalWarning               \
   # --disable-warning='ExperimentalWarning'         \
   # --experimental-require-module                   \
   # --nouse_idle_notification                       \
